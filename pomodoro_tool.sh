@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" -ne 0 ]; then	
-	MINUTES_POMODORO_INTERVAL=$1
+	MINUTES_POMODORO_INTERVAL=$25
 else
 	MINUTES_POMODORO_INTERVAL=30
 fi
