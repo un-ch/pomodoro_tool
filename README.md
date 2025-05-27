@@ -7,8 +7,8 @@
 </ul>
 
 #### Usage:
-<code>./pomodoro.sh	# starts a 30-minute timer</code><br>
-<code>./pomodoro.sh 10	# starts a 10-minute timer</code>
+<code>./pomodoro.sh       # starts a 30-minute timer</code><br>
+<code>./pomodoro.sh 10    # starts a 10-minute timer</code>
 
 #### Requirements:
 <ul>
