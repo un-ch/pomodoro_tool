@@ -1,23 +1,32 @@
 #!/bin/bash
 
-FIRST_COMMAND_LINE_ARGUMENT="$1"
+DEFAULT_MINUTES=30
+NOTIFY_DURATION_SECONDS=60
+NOTIFY_TITLE='############## ----- TIME! ----- ##############'
+NOTIFY_BODY='Take a break.'
+NOTIFY_ICON='dialog-information'
 
-if [ "$#" -ne 0 ]; then	
-	MINUTES_POMODORO_INTERVAL=$FIRST_COMMAND_LINE_ARGUMENT
+# --- argument parsing ---
+if [[ $# -eq 0 ]]; then
+	MINUTES=$DEFAULT_MINUTES
+elif [[ "$1" =~ ^[0-9]+$ ]]; then
+	MINUTES=$1
 else
-	MINUTES_POMODORO_INTERVAL=30
+	echo "error: argument must be a positive integer or omitted entirely" 1>&2
+	exit 1
 fi
 
-SECONDS_SHOWING_NOTIFYING_BADGE=60
-msg='############## _____ TIME! _____ ##############'
+# --- calculations ---
+SECONDS_TO_WAIT=$((MINUTES * 60))
+NOTIFY_DURATION_MS=$((NOTIFY_DURATION_SECONDS * 1000))
 
-let SECONDS_POMODORO_INTERVAL=$MINUTES_POMODORO_INTERVAL*60
-let MILISECONDS_SHOWING_NOTIFYING_BADGE=$SECONDS_SHOWING_NOTIFYING_BADGE*1000
+# --- countdown ---
+echo "Pomodoro started: $MINUTES minutes."
+sleep "$SECONDS_TO_WAIT"
 
-# notify-send -t $MILISECONDS_SHOWING_NOTIFYING_BADGE "$msg"
-
-sleep $SECONDS_POMODORO_INTERVAL &&
+# --- notification ---
 notify-send \
-    -t $MILISECONDS_SHOWING_NOTIFYING_BADGE \
-    '############## _____ TIME! _____ ##############' \
-    'This is an example notification.' --icon=dialog-information
+	-t "$NOTIFY_DURATION_MS" \
+	"$NOTIFY_TITLE" \
+	"$NOTIFY_BODY" \
+	--icon="$NOTIFY_ICON"
